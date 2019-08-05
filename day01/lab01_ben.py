@@ -3,14 +3,41 @@
 
 """convert positive integer to base 2"""
 def binarify(num):
+# Create the empty list for the binary number
+    bin = []
+# While loop iterates through division and remainder, adding
+# remainders to bin list until the number is 0
+    while num > 0:
+        bin.append(num%2)
+        num //= 2
+# Reverse the list
+    bin.reverse()
+# Convert list to string
+    string = "".join(str(i) for i in bin)
+    print(string)
 
+binarify(50)
 
 """convert positive integer to a string in any base"""
 def int_to_base(num, base):
+# Create the empty list
+    base_conversion = []
+# While loop iterates through division by the base and saves the remainder,
+# adding remainders to bin list until the number is 0
+    while num > 0:
+        base_conversion.append(num%base)
+        num //= base
+# Reverse the list
+    base_conversion.reverse()
+# Convert list to string
+    string = "".join(str(i) for i in base_conversion)
+    print(string)
 
+int_to_base(734,5)
 
 """take a string-formatted number and its base and return the base-10 integer"""
 def base_to_int(string, base):
+    base_10 = []
 
 
 """add two numbers of different bases and return the sum"""
