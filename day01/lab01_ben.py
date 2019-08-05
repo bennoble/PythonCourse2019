@@ -14,7 +14,7 @@ def binarify(num):
     bin.reverse()
 # Convert list to string
     string = "".join(str(i) for i in bin)
-    print(string)
+    return string
 
 binarify(50)
 
@@ -31,41 +31,37 @@ def int_to_base(num, base):
     base_conversion.reverse()
 # Convert list to string
     string = "".join(str(i) for i in base_conversion)
-    print(string)
+    return string
 
 int_to_base(734,5)
 
 """take a string-formatted number and its base and return the base-10 integer"""
 def base_to_int(string, base):
-    bin10 = []
+    answer = 0
     str_to_list = [i for i in string]
     str_to_list.reverse()
-    list_to_int = list(map(int, str_to_list))
-    exp = range(0, len(list_to_int))
-    for i in list_to_int:
-        if i != 0:
-            bin10.append(base * i)
-        else:
-            bin10.append(0)
-#    for i in range(0, len(str_to_list + 1)):
-#        if i != "0":
-#            bin10.append(base ** i * )
-#        else:
-#            bin10.append(0)
-#    bin10 = list(map(int, bin10))
-#    for j in exp and i in bin10:
-#        bin10.append(i ** j)
-    print(bin10)
+    int_list = []
+    for i in str_to_list:
+        int_list.append(int(i))
+    for i in range(len(int_list)):
+        answer += int_list[i]*base**i
+    return answer
 
-base_to_int("40", 5)
+# base_to_int("1111", 2)
 
 """add two numbers of different bases and return the sum"""
 def flexibase_add(str1, str2, base1, base2):
+    answer = base_to_int(str1, base1) + base_to_int(str2, base2)
+    print(answer)
 
+flexibase_add("10", "40", 2, 5)
 
 """multiply two numbers of different bases and return the product"""
 def flexibase_multiply(str1, str2, base1, base2):
+    answer = base_to_int(str1, base1) * base_to_int(str2, base2)
+    print(answer)
 
+flexibase_multiply("10", "40", 2, 5)
 
 """given an integer, return the Roman numeral version"""
 def romanify(num):
