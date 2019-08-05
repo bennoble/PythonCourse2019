@@ -37,8 +37,27 @@ int_to_base(734,5)
 
 """take a string-formatted number and its base and return the base-10 integer"""
 def base_to_int(string, base):
-    base_10 = []
+    bin10 = []
+    str_to_list = [i for i in string]
+    str_to_list.reverse()
+    list_to_int = list(map(int, str_to_list))
+    exp = range(0, len(list_to_int))
+    for i in list_to_int:
+        if i != 0:
+            bin10.append(base * i)
+        else:
+            bin10.append(0)
+#    for i in range(0, len(str_to_list + 1)):
+#        if i != "0":
+#            bin10.append(base ** i * )
+#        else:
+#            bin10.append(0)
+#    bin10 = list(map(int, bin10))
+#    for j in exp and i in bin10:
+#        bin10.append(i ** j)
+    print(bin10)
 
+base_to_int("40", 5)
 
 """add two numbers of different bases and return the sum"""
 def flexibase_add(str1, str2, base1, base2):
