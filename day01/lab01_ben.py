@@ -34,39 +34,45 @@ def int_to_base(num, base):
     return string
 
 int_to_base(734,5)
+int_to_base(345, 6)
 
 """take a string-formatted number and its base and return the base-10 integer"""
 def base_to_int(string, base):
     answer = 0
+# Convert the string into an individualized list of characters
     str_to_list = [i for i in string]
+# Reverse the string so that indices correspond with powers
     str_to_list.reverse()
     int_list = []
+# Convert characters to strings
     for i in str_to_list:
         int_list.append(int(i))
+# Take the ith element of the list, multiply it by the base raised to the ith
+# power
     for i in range(len(int_list)):
         answer += int_list[i]*base**i
     return answer
 
-# base_to_int("1111", 2)
+base_to_int("1111", 2)
 
 """add two numbers of different bases and return the sum"""
 def flexibase_add(str1, str2, base1, base2):
     answer = base_to_int(str1, base1) + base_to_int(str2, base2)
-    print(answer)
+    return answer
 
 flexibase_add("10", "40", 2, 5)
 
 """multiply two numbers of different bases and return the product"""
 def flexibase_multiply(str1, str2, base1, base2):
     answer = base_to_int(str1, base1) * base_to_int(str2, base2)
-    print(answer)
+    return answer
 
 flexibase_multiply("10", "40", 2, 5)
 
 """given an integer, return the Roman numeral version"""
 def romanify(num):
 
-
+    
 # Copyright (c) 2014 Matt Dickenson
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
