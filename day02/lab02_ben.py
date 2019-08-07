@@ -57,10 +57,7 @@ class Clock:
 
     ## Are two times not equal?
     def __ne__(self, other):
-      if self.hour == other.hour and self.minutes == other.minutes:
-        return False
-      else:
-        return True
+      not self.__eq__(other)
       
 # Instantiate clocks
 clock1 = Clock(1, 45)
