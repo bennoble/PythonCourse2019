@@ -12,7 +12,11 @@ class Clock:
     ## Add time
     ## Don't return anything
     def __add__(self,minutes):
+#Calculate the total minute value
       total_min = self.minutes + minutes
+# While the total min value is greater than 60, add an hour to the time, then
+# subtract 60. If the hours go above 12, reset hours to 1. If the hours go
+# below 1, reset hours to 12.
       while total_min >= 60:
         self.hour += 1
         total_min -= 60
@@ -20,6 +24,7 @@ class Clock:
           self.hour = 1
         elif self.hour < 1:
           self.hour = 12
+# Reset self.min to 0. Then add the total minutes.
       self.minutes = 0
       self.minutes += total_min
       print(self)      
@@ -27,7 +32,11 @@ class Clock:
     ## Subtract time
     ## Don't return anything
     def __sub__(self,minutes):
+#Calculate the total minute value to be subtracted.
       total_min = self.minutes - minutes
+# If the total minutes to be subtracted are less than 0, subtract an hour and 
+# add 60 minutes. If the hours go above 12, reset hours to 1. If the hours go
+# below 1, reset hours to 12.
       while total_min < 0:
         self.hour -= 1
         total_min += 60
@@ -35,6 +44,7 @@ class Clock:
           self.hour = 1
         elif self.hour < 1:
           self.hour = 12
+# set the minutes to the remaining total minutes.
       self.minutes = total_min
       print(self)
       
@@ -57,8 +67,8 @@ clock1 = Clock(1, 45)
 clock2 = Clock(2, 45)
 
 # algebra
-clock1 + 45
-clock1 - 100
+clock1 + 100
+clock1 - 45
 
 # logic
 clock1 == clock2
