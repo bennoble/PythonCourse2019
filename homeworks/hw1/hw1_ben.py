@@ -9,6 +9,10 @@ Author: Ben Noble
 
 # Loading packages
 import random
+import datetime
+
+def time():
+  return "%d:%d" % (datetime.datetime.now().hour, datetime.datetime.now().minute) 
 
 # Creating the portfolio class which allows the user to input their name and 
 # starting cash value. Code automatically creates empty lists for stocks and
@@ -19,6 +23,7 @@ class Portfolio():
     self.cash = cash # client's starting cash value
     self.stock_list = {"symbol": [], "shares" : []} #empty stock list
     self.mf_list = {"symbol": [], "shares" : []} # empty mutual fund list
+    self.hist = []
 
 # Defining the print output of the portfolio object  
   def __str__(self):
@@ -27,6 +32,7 @@ class Portfolio():
 # Allows user to deposit money into their account  
   def deposit(self, money):
     self.cash += money
+    self.hist.append(time() + " Deposited $%d" % (money))
     print(self)
 
 # Allows user to withdraw money from their account. If they attempt to overdraw
@@ -36,6 +42,7 @@ class Portfolio():
       return "Error. Insufficient Funds."
     else:
       self.cash -= money
+      self.hist.append(time() + " Withdrew $%d" % (money))
       print(self)
   
   def buy_stock(self, shares, stock):
@@ -51,7 +58,26 @@ class Portfolio():
         self.stock_list["shares"].append(shares)
         self.stock_list["symbol"].append(stock.symbol)
         self.cash -= stock.price * shares
-      return self.stock_list
+        self.hist.append(time() + " Purchased %d shares of %s" % (shares, stock.symbol))
+      print(self)
+
+  def sell_stock(self, shares, stock):
+    if all(i != stock.symbol for i in self.stock_list["symbol"]):
+      return "Error. You do not own any shares of %s" % (stock.symbol)
+    for i in self.stock_list["symbol"]:
+      if i == stock.symbol:
+        ind = self.stock_list["symbol"].index(i)
+        if self.stock_list["shares"][ind] - shares < 0:
+          return "Error. Insufficient shares."
+        else:
+          self.stock_list["shares"][ind] = round(self.stock_list["shares"][ind] - shares, 2)
+          if self.stock_list["shares"][ind] == 0:
+            self.stock_list["shares"].pop(ind)
+            self.stock_list["symbol"].pop(ind)
+          sale_price = round(random.uniform(stock.price * .5, stock.price * 1.5), 2)
+          print("The sale price is %s per share" % (sale_price))
+          self.cash += sale_price * shares
+      print(self)
   
   def buy_mutual_fund(self, shares, mf):
 # Check to ensure sufficient funds to make the purchase. If not, abort.
@@ -62,7 +88,7 @@ class Portfolio():
       self.mf_list["shares"].append(shares)
       self.mf_list["symbol"].append(mf.symbol)
       self.cash -= 1 * shares
-    return self.mf_list
+    print(self)
   
   def sell_mutual_fund(self, shares, mf):
 # If the mutual fund selected is not in the mutual fund list, abort.
@@ -91,6 +117,11 @@ class Portfolio():
 # Add the sale price * shares to their cash balance.
           self.cash += sale_price * shares
     print(self)
+
+  def history(self, num = None):
+    if num == None:
+      num = len(self.hist)
+    print('\n'.join(self.hist[-num:]))
 
 # Define financial instrument class which has a price and symbol  
 class FinancialInstrument():
@@ -121,6 +152,15 @@ ben = MutualFund("BEN")
 print(hfh)
 print(brt)
 print(brt)
+
+bob.deposit(10)
+bob.withdraw(15)
+bob.buy_stock(1, abc)
+
+bob.history()
+
+bob.buy_stock(2, hfh)
+bob.sell_stock(1, hfh)
 
 bob.buy_mutual_fund(10.3, brt)
 bob.buy_mutual_fund(3.2, xyz)
