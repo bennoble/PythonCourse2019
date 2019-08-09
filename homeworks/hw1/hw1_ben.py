@@ -7,12 +7,14 @@ Title: Homework 1
 Author: Ben Noble
 """
 
-# Loading packages
+# Preamble
 import random
 import datetime
 
 def time():
   return "%d:%d" % (datetime.datetime.now().hour, datetime.datetime.now().minute) 
+
+overdraft = "Overdraft: Insufficient Funds. Transaction has been terminated."
 
 # Creating the portfolio class which allows the user to input their name and 
 # starting cash value. Code automatically creates empty lists for stocks and
@@ -39,12 +41,12 @@ class Portfolio():
 # the operation aborts.
   def withdraw(self, money):
     if self.cash - money < 0:
-      return "Error. Insufficient Funds."
-    else:
+      return overdraft
+    else:  
       self.cash -= money
       self.hist.append(time() + " Withdrew $%d" % (money))
       print(self)
-  
+    
   def buy_stock(self, shares, stock):
 # Check to ensure stock is an integer value. If not, abort.
     if float(shares).is_integer() == False:
@@ -52,7 +54,7 @@ class Portfolio():
 # Check to ensure sufficient funds to make the purchase. If not, abort.
     else:
       if self.cash - stock.price * shares < 0:
-        return "Error. Insufficient Funds."
+        return overdraft
 # Adds symbol and shares to the stock list, then takes cash from the account.
       else:
         self.stock_list["shares"].append(shares)
@@ -68,7 +70,7 @@ class Portfolio():
       if i == stock.symbol:
         ind = self.stock_list["symbol"].index(i)
         if self.stock_list["shares"][ind] - shares < 0:
-          return "Error. Insufficient shares."
+          return overdraft
         else:
           self.stock_list["shares"][ind] = round(self.stock_list["shares"][ind] - shares, 2)
           if self.stock_list["shares"][ind] == 0:
@@ -82,7 +84,7 @@ class Portfolio():
   def buy_mutual_fund(self, shares, mf):
 # Check to ensure sufficient funds to make the purchase. If not, abort.
     if self.cash - 1 * shares < 0:
-      return "Error. Insufficient Funds."
+      return overdraft
 # Adds symbol and shares to the mutual fund list, then takes cash from the account.
     else:
       self.mf_list["shares"].append(shares)
@@ -142,7 +144,7 @@ class Stock(FinancialInstrument):
 class MutualFund(FinancialInstrument):
   def __init__(self, symbol):
       FinancialInstrument.__init__(self, 1, symbol)   
-  
+      
 bob = Portfolio("Bob", 50) #Creates a new portfolio
 hfh = Stock(20, "HFH")
 abc = Stock(40, "ABC")
@@ -153,13 +155,16 @@ print(hfh)
 print(brt)
 print(brt)
 
+bob.withdraw(600)
+
+
 bob.deposit(10)
-bob.withdraw(15)
+
 bob.buy_stock(1, abc)
 
 bob.history()
 
-bob.buy_stock(2, hfh)
+bob.buy_stock(50, hfh)
 bob.sell_stock(1, hfh)
 
 bob.buy_mutual_fund(10.3, brt)
