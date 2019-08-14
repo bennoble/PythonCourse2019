@@ -26,7 +26,7 @@ with open('hw2_ben.csv', 'w') as f:
 # Create an empty dictionary for each petition entry
   petition = {}
 # The petition site has for pages, so I begin by indexing by each page
-  for i in range(4):
+  for i in range(5):
 # Parse the specific page using the index i 
     url = "https://petitions.whitehouse.gov/?page={}".format(i)
     main_page = urllib.request.urlopen(url)
