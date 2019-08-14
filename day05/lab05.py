@@ -8,23 +8,28 @@ with open("obama-nh.txt", "r") as f:
 ## TODO: print lines that do not contain 'the' using what we learned
 ## (although you ~might~ think you could do something like
 ## [l for l in obama if "the" not in l]
+speech = ''.join(obama)
+print(speech)
 
-
-
+for line in obama:
+  if re.findall(r"^.*the\s.*$", line):
+    print(line)
 
 # TODO: print lines that contain a word of any length starting with s and ending with e
 
-
-
+for line in obama:
+  if re.findall(r"^.*\ss[a-z]*e\s.*$", line):
+    print(line)
 
 ## TODO: Print the date input in the following format
 ## Month: MM
 ## Day: DD
 ## Year: YY
-date = raw_input("Please enter a date in the format MM.DD.YY: ")
 
+date = r"Please enter a date in the format MM.DD.YY: "
 
+md = re.findall(r"(\w\w)\.", date)
+y = re.findall(r"(\w\w)\:", date)
 
-
-
-
+print('\n Month: %s \n Day: %s \n Year: %s' % (md[0], md[1], y[0]))
+  
