@@ -27,9 +27,12 @@ for line in obama:
 ## Year: YY
 
 date = r"Please enter a date in the format MM.DD.YY: "
+date1 = r"Please enter a date in the format 01.01.99: "
 
-md = re.findall(r"(\w\w)\.", date)
-y = re.findall(r"(\w\w)\:", date)
-
-print('\n Month: %s \n Day: %s \n Year: %s' % (md[0], md[1], y[0]))
+def date_printer(raw):
+  md = re.findall(r"(\w\w)\.", raw)
+  y = re.findall(r"(\w\w)\:", raw)
+  print('\n Month: %s \n Day: %s \n Year: %s' % (md[0], md[1], y[0]))
   
+date_printer(date)
+date_printer(date1)
