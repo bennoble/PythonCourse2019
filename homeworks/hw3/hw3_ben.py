@@ -101,8 +101,9 @@ follows()
 len(follows_name) # Check to ensure we've captures all follows: 866
 
 # Among those who @WUSTL follows, who has the greatest number of followers?
-follows_name[follows_num.index(max(follows_num))] ## It's Twitter with...
-max(follows_num) ## 56,511,292 followers
+## It's Twitter with 56,511,292 followers
+print('%s: %s' % (follows_name[follows_num.index(max(follows_num))], max(follows_num))) 
+
 
 # Among those who @WUSTL follows, who has the most tweets by category?
 def follows_tweets():
@@ -140,7 +141,7 @@ def follows_tweets():
   print('Expert: %s, %s' % (name_expert, expert))
   print('Celebrity: %s, %s' % (name_celeb, celeb))
       
-follows_tweets() # WUSTLdigital: 97 // CollegeCEOs: 994 // nytimes: 368674
+follows_tweets() # @WUSTL_Weather: 7,374 // @tbwonline: 25,603 // nytimes: 368,674
 
 ######################
 # 2A: Among the (laymen and experts) followers of @WUSTLPoliSci and their 
