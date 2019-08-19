@@ -118,11 +118,16 @@ for town in session.query(Town).order_by(Town.id):
 # 2. Display the total number of inhabitants
 #    per department
 
-for department in session.query(Department).join(Town).filter(town.population > 50000).order_by(Department.id):
-  print(department.id, department.name, town.name, town.population)
 
 
+for town in session.query(Town).join(Department).filter(Town.population > 50000).order_by(Department.deptname):
+  print(town.department.deptname, town.name, town.population)
 
+from sqlalchemy import func
+  
+for dept in session.query(Department.deptname, func.sum(Town.population).label('inhab')).join(Department).group_by(Department.deptname):
+  print(dept.deptname, dept.inhab)
+  
 # Copyright (c) 2014 Matt Dickenson
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
