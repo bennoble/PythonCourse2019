@@ -21,7 +21,8 @@ api = twitter.client
 
 
 ######################
-# 1A and 1B: Among the followers of @WUSTL, who has the greatest number of total tweets/followers
+# 1A and 1B: Among the followers of @WUSTL, who has the greatest number 
+# of total tweets/followers
 ######################
 
 def followers_comp():
@@ -63,36 +64,10 @@ def followers_comp():
 # Print the winner of each category
   return "Most followers: %s %s. Most tweets: %s %s." % (handle_fols, fols, handle_tweets, tweets)
 
-q1 = followers_comp()  
-
-############################ delete?  
-
-follower_name = []
-follower_num = []
-follower_status_num = []
-      
-def followers():
-  for fol in tweepy.Cursor(api.followers, id = 'WUSTL').items():
-    try:
-# Get the name, number of followers, and number of tweets of each user 
-# @WUSTL follows and append to list
-      follower_name.append(fol.screen_name)
-      follower_num.append(fol.followers_count)
-      follower_status_num.append(fol.statuses_count)
-# I set the API to wait_on_rate_limit = True so this is probably not necessary
-# But I am paranoid!
-    except tweepy.RateLimitError:
-      print("Rate Limit hit. Sleeping.")
-      time.sleep(15 * 60)
-      continue
-# Pause for 30s if there's a connection error
-    except ConnectionError:
-      print("Connection Error. Sleeping.")
-      time.sleep(30)
-      continue
-# Call the followers function
-followers()  
-
+q1 = followers_comp()
+q1 
+# Most followers: hootsuite 7,858,471. 
+# Most tweets: brontyman 582,447
 
 ######################
 # 1C and 1D: Among those who @WUSTL follows, who has the greatest number of 
@@ -178,7 +153,7 @@ def followerfollower():
   name = None
   i = 0
 # For each follower of @WUSTLPoliSci...
-  for fol in tweepy.Cursor(api.followers, 'WUSTLPoliSci').items():
+  for fol in tweepy.Cursor(api.followers, 'WUSTLPoliSci').items(2):
 # This part counts which user @WUSTLPoliSci follows that I am currently on, 
 # just helps me keep track of the function's progress since it takes a while to run
     i += 1
@@ -187,8 +162,9 @@ def followerfollower():
 # I add the follower to the list then go through all the users followers
 # and append them to the list
       wustlps_followerfollower.append(fol)
-      for folfol in tweepy.Cursor(api.followers, fol.screen_name).items():
+      for folfol in tweepy.Cursor(api.followers, fol.screen_name).items(2):
         wustlps_followerfollower.apend(folfol)
+        print('done')
 # If there's a connection error, pause for 30s
     except ConnectionError:
       time.sleep(30)
