@@ -149,12 +149,18 @@ follows_tweets() # @WUSTL_Weather: 7,374 // @tbwonline: 25,603 // nytimes: 368,6
 ######################
 wups = api.get_user('WUSTLPoliSci')
 
+# This function will return the correct answer if given enough time,
+# I was actually halfway there and I accidentally closed my console! As a quick
+# proof of concept, I can run the function for all followers of a small subset
+# of the first level followers. Ti run the full function, simply remove the index
+# on line 162:
+
 folfol = []
 def fast_2xfollow():
   count = 0
   name = None
 # For every follower of @WUSTLPoliSci, get their id and append to list
-  for follower_id in wups.followers_ids():
+  for follower_id in wups.followers_ids()[0:2]:
     try:
       user = api.get_user(follower_id)
       folfol.append(user)
@@ -183,14 +189,18 @@ def fast_2xfollow():
     #return '%s, %s' % (name, count)
   return name, count
 
-q2a = fast_2xfollow()
-q2a
-
+q2a_test = fast_2xfollow()
+q2a_test # @PaulaAranaB, 21746 — second level connection WUSTLPoliSci > LalaHMur > PaulaAranaB
 
 ######################
 # 2B: Among those (laymen and experts) who @WUSTLPoliSci follows and those who 
 # they follow, who has the greatest number of tweets?
 ######################
+
+# This function will return the correct answer if given enough time.
+# As a proof of concept, I can run the function for a all friends of a small 
+# subset of the first level friends. To run the full function, simply remove the
+# '2' within items on line 210.
 
 def followfollow():
   wustlps_followfollow = []
@@ -198,7 +208,7 @@ def followfollow():
   name = None
   i = 0
 # For each user @WUSTLPoliSci follows...
-  for fol in tweepy.Cursor(api.friends, 'WUSTLPoliSci').items(1):
+  for fol in tweepy.Cursor(api.friends, 'WUSTLPoliSci').items(2):
 # This part counts which user @WUSTLPoliSci follows that I am currently on, 
 # just helps me keep track of the function's progress since it takes a while to run
     i += 1
@@ -206,9 +216,9 @@ def followfollow():
     try:
 # I add the followed user to the list then go through all the users they're
 # following and append them to the list
-      wustlps_followfollow.append(fol.id)
-      for folfol in tweepy.Cursor(api.friends, wustlps_followfollow[fol]).items(1):
-        wustlps_followfollow.append(folfol.id)
+      wustlps_followfollow.append(fol)
+      for folfol in tweepy.Cursor(api.friends, fol.screen_name).items():
+        wustlps_followfollow.append(folfol)
 # If there's a connection error, pause for 30s
     except ConnectionError:
       time.sleep(30)
@@ -224,6 +234,5 @@ def followfollow():
 # Print the ultimate winner
   return '%s, %s' % (name, count)
 
-q2b = followfollow()
-q2b
-
+q2b_test = followfollow()
+q2b_test # @lamerrifield, 11202 — second level connection WUSTLPoliSci > JenSmithWashU > Lammerfield
