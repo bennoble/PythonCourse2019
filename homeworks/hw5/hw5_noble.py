@@ -45,13 +45,11 @@ class LinkedList():
 # Length is increased by 1
     self.length += 1
 
-# Printing the list with a recursive function       
-  def __str__(self):
-# name is initially defined as self.value which is the head node
-    name = self.value
+# Printing the list with a recursive function called 'loop'
+  def loop(self, name = None):
 # If the named node value == the tail value, then the tail value is printed
     if name.value == self.tail.value:
-      return '%d' % (self.tail.value)
+      return '%s' % (self.tail.value)
 # Else, print the current named value, add .next to the name, and run the function
 # again. This process begins with self.value and then in the next call becomes
 # self.value.next (the second node) and on and on until self.value.next...next
@@ -59,15 +57,48 @@ class LinkedList():
     else:
       print(name.value)
       name = name.next
-      return this(name)
-        
+      return self.loop(name)
+
+# Printing the LinkedList class calls the loop function and runs it with the
+# head name as the starting argument. It returns the full list.
+  def __str__(self):
+    return self.loop(self.value)
+
+  def addNodeAfter(self, new_value, after_node):        
+# Create a new node with the new value
+    self.new_value = Node(new_value)
+# Defibe a temporary recursive function which searches the list for the node
+# with the value of the 'after_node'
+    def recur(name, after_node):
+# If the value of the current named node matches the value the user entered for
+# the 'after_node', return the node object
+      if name.value == after_node:
+        return name
+# Otherwise, appened .next until the matching node object is found
+      else:
+        name = name.next
+        return recur(name, after_node)
+# Run the recur function starting with the head node and return the result
+    match = recur(self.value, after_node)
+# Suppose the new node is called B and is going between A and C:
+# This line looks at what A is pointing to (C) and points B to C.
+    self.new_value.next = match.next
+# This line looks at A and points it to B. 
+    match.next = self.new_value
+# Print the updated list
+    print('Linked list updated: \n', self)
     
 li = LinkedList(5)
 li.addNode(12)
 li.addNode(9)
 li.addNode(2)
+li.loop(li.value)
 
 print(li)
+
+li.addNodeAfter(6, 5)
+
+
 
 for i in li.list_length():
   print()
