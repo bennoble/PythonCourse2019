@@ -27,25 +27,7 @@ class LinkedList():
 # The length of the list is set to be 1
     self.length = 1
     
-# The list_length function returns self.length
-  def list_length(self):
-    return '%d' % (self.length)
-
-# The addNode function takes one new value
-  def addNode(self, new_value):
-# The new value creates a new instance of a Node
-    self.new_value = Node(new_value)
-# The tail (currently the most recently created node before this one) takes on 
-# a _next value of the node being created
-    self.tail.next = self.new_value
-    #if self.tail.value == self.value.value:
-     # self.value.next = self.tail.next
-# The new node becomes the tail
-    self.tail = self.new_value
-# Length is increased by 1
-    self.length += 1
-
-# Printing the list with a recursive function called 'loop'
+# I will be printing the list with a recursive function called 'loop'
   def loop(self, name = None):
 # If the named node value == the tail value, then the tail value is printed
     if name.value == self.tail.value:
@@ -63,6 +45,25 @@ class LinkedList():
 # head name as the starting argument. It returns the full list.
   def __str__(self):
     return self.loop(self.value)
+    
+# The list_length function returns self.length
+  def list_length(self):
+    return '%d' % (self.length)
+
+# The addNode function takes one new value
+  def addNode(self, new_value):
+# The new value creates a new instance of a Node
+    self.new_value = Node(new_value)
+# The tail (currently the most recently created node before this one) takes on 
+# a _next value of the node being created
+    self.tail.next = self.new_value
+    #if self.tail.value == self.value.value:
+     # self.value.next = self.tail.next
+# The new node becomes the tail
+    self.tail = self.new_value
+# Length is increased by 1
+    self.length += 1
+    print(self)
 
   def addNodeAfter(self, new_value, after_node):        
 # Create a new node with the new value
@@ -85,8 +86,45 @@ class LinkedList():
     self.new_value.next = match.next
 # This line looks at A and points it to B. 
     match.next = self.new_value
+    self.length += 1
 # Print the updated list
     print('Linked list updated: \n', self)
+    
+  def reverse(self):
+# Define a temporary function called tail_finder which takes a name and the 
+# current tail
+    def tail_finder(name, current_tail):
+# If a node points to the tail... 
+      if name.next.value == current_tail.value:
+# Point the current tail to that node (aka, point backwards)
+        current_tail.next = name
+# Define new_tail as that node (this will be the node before the actual tail)
+        self.new_tail = name
+        return self.new_tail
+      else:
+# Otherwise, append. next to the name and call tail_finder again until you 
+# find the node pointing to the tail
+        name = name.next
+        return tail_finder(name, current_tail)
+# Run tail finder once
+    tail_finder(self.value, self.tail)
+# Check to see if the head (which I call self.value) is also the new_tail. If not
+# run tail_finder until the head is ultimately the new_tail
+    while self.new_tail != self.value:
+      tail_finder(self.value, self.new_tail)
+# The next two lines are basically bookkeeping to ensure that after the list
+# is reversed, all the other functions in the class work as they're supposed to
+##     
+# self.tail still points the original tail, so reassign the original tail to be 
+# self.value, which is what I call the head elsewhere
+    self.value = self.tail
+# self.new_tail (which is only used for the tail_finder funtion) is the original head, 
+# so I must assign this to be the actual tail object, which I call self. tail.
+    self.tail = self.new_tail
+# Now we can forget about self.new_tail, and the original head is the tail and
+# the original tail is the head and everything is pointing "backwards"
+    print(self)
+
     
 li = LinkedList(5)
 li.addNode(12)
@@ -96,9 +134,14 @@ li.loop(li.value)
 
 print(li)
 
-li.addNodeAfter(6, 5)
+li.reverse()
 
+print(li)
 
+li.addNodeAfter(63, 9)
+li.addNode(0)
+
+li.list_length()
 
 for i in li.list_length():
   print()
