@@ -48,7 +48,7 @@ class LinkedList():
     
 # The list_length function returns self.length
   def list_length(self):
-    return '%d' % (self.length)
+    return self.length
 
 # The addNode function takes one new value
   def addNode(self, new_value):
@@ -57,8 +57,6 @@ class LinkedList():
 # The tail (currently the most recently created node before this one) takes on 
 # a _next value of the node being created
     self.tail.next = self.new_value
-    #if self.tail.value == self.value.value:
-     # self.value.next = self.tail.next
 # The new node becomes the tail
     self.tail = self.new_value
 # Length is increased by 1
@@ -68,7 +66,7 @@ class LinkedList():
   def addNodeAfter(self, new_value, after_node):        
 # Create a new node with the new value
     self.new_value = Node(new_value)
-# Defibe a temporary recursive function which searches the list for the node
+# Define a temporary recursive function which searches the list for the node
 # with the value of the 'after_node'
     def recur(name, after_node):
 # If the value of the current named node matches the value the user entered for
@@ -86,9 +84,62 @@ class LinkedList():
     self.new_value.next = match.next
 # This line looks at A and points it to B. 
     match.next = self.new_value
+# Increase the list length
     self.length += 1
 # Print the updated list
     print('Linked list updated: \n', self)
+    
+# Define helper function 'node_before' which identifies the node before the
+# specified value
+  def node_before(self, name, value):
+# If the named node points to the specified value, return that node    
+      if name.next.value == value:
+        return name
+# Else append .next to the name and check again
+      else:
+        name = name.next
+        return self.node_before(name, value)  
+    
+  def addNodeBefore(self, new_value, before_node):
+# Create a new node with the new value
+    self.new_value = Node(new_value)
+# Run the 'node_before' function starting with the head node and return the result
+    match = self.node_before(self.value, before_node)
+# Suppose the new node is called B and is going between A and C:
+# This line looks at what A is pointing to (C) and points B to C.
+    self.new_value.next = match.next
+# This line looks at A and points it to B. 
+    match.next = self.new_value
+# Increase the list length
+    self.length += 1
+# Print the updated list
+    print('Linked list updated: \n', self)
+  
+  def removeNode(self, node_to_remove):
+# Run the 'node_before' function starting with the head node and return the result
+    before = self.node_before(self.value, node_to_remove)
+# Assign the node before the removal to point to the node after the removal
+    before.next = before.next.next
+# Decrease the list length
+    self.length -= 1
+# Print the updated list
+    print('Linked list updated: \n', self)  
+    
+  def removeNodesByValue(self, value):
+    try:
+# Run the 'node_before' function starting with the head node and return the result
+      before = self.node_before(self.value, value)
+# Assign the node before the removal to point to the node after the removal
+      before.next = before.next.next
+# Decrease the list length
+      self.length -= 1
+# Run removeNodesByValue again to find other nodes with the same value
+      return self.removeNodesByValue(value)
+# If the function cannot find another (or even a first) node with the value it 
+# will throw an attribute error. If that happens, then all nodes with the specified
+# value have been removed, which means the function is done and we can print the list
+    except AttributeError:
+      print('Linked list updated: \n', self)
     
   def reverse(self):
 # Define a temporary function called tail_finder which takes a name and the 
@@ -122,7 +173,9 @@ class LinkedList():
 # so I must assign this to be the actual tail object, which I call self. tail.
     self.tail = self.new_tail
 # Now we can forget about self.new_tail, and the original head is the tail and
-# the original tail is the head and everything is pointing "backwards"
+# the original tail is the head and everything is pointing "backwards". But just
+# so there aren't random objects floating around, I delete self.new_tail.
+    self.new_tail = None
     print(self)
 
     
@@ -130,9 +183,18 @@ li = LinkedList(5)
 li.addNode(12)
 li.addNode(9)
 li.addNode(2)
-li.loop(li.value)
+
+li.addNodeBefore(8, 12)
+
+li.removeNodesByValue(8)
 
 print(li)
+
+li.removeNode(10)
+
+li.value.next.value
+
+li.addNodeBefore(7, 12)
 
 li.reverse()
 
@@ -142,48 +204,5 @@ li.addNodeAfter(63, 9)
 li.addNode(0)
 
 li.list_length()
-
-for i in li.list_length():
-  print()
-
-
-a print(('.next'*2))
-
-li.value + a
-print(li.value.next.next)
-
-
-print(li.value.value)
-print(li.value.next)
-print(li.tail.value)
-print(li.tail.next)
-
-a = li.value.next
-
-def this(name):
-  if name.value == li.tail.value:
-    return '%d' % (li.tail.value)
-  else:
-    print(name.value)
-    name = name.next
-    return this(name)
-
-this(li.value)
-
-print(li.value.next.next.next.value)
-
-
-print(li.value.next)
-
-print(li.new_value.next)
-
-
-test = [i for i in range(10)]
-
-for i in range(15):
-  try:
-    print(test[i])
-  except IndexError:
-    pass
 
 
