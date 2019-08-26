@@ -40,15 +40,19 @@ class LinkedList():
       print(name.value)
       name = name.next
       return self.loop(name)
+# Computational Complexity: O(n) because it looks through the entire list    
 
 # Printing the LinkedList class calls the loop function and runs it with the
 # head name as the starting argument. It returns the full list.
   def __str__(self):
     return self.loop(self.value)
+# Computational Complexity: O(n) because it calls loop() which looks through the entire list    
+
     
 # The list_length function returns self.length
   def list_length(self):
     return self.length
+# Computational Complexity: O(1) because it just calls a single object
 
 # The addNode function takes one new value
   def addNode(self, new_value):
@@ -62,6 +66,9 @@ class LinkedList():
 # Length is increased by 1
     self.length += 1
     print(self)
+# Computational Complexity: O(1) because we are manipulating a two objects, 
+# which is constant every time
+
 
   def addNodeAfter(self, new_value, after_node):        
 # Create a new node with the new value
@@ -88,6 +95,10 @@ class LinkedList():
     self.length += 1
 # Print the updated list
     print('Linked list updated: \n', self)
+# Computational Complexity: O(n) on average because unless we want to add after
+# the head, we have to cycle through most of the list. This could possibly
+# be reduced if I knew how to look up a value without cycling through the
+# list but that may not be possible.
     
 # Define helper function 'node_before' which identifies the node before the
 # specified value
@@ -99,6 +110,7 @@ class LinkedList():
       else:
         name = name.next
         return self.node_before(name, value)  
+# Computational Complexity: O(n). Same comments as above.
     
   def addNodeBefore(self, new_value, before_node):
 # Create a new node with the new value
@@ -114,6 +126,7 @@ class LinkedList():
     self.length += 1
 # Print the updated list
     print('Linked list updated: \n', self)
+# Computational Complexity: O(n). Same comments as above.
   
   def removeNode(self, node_to_remove):
 # Run the 'node_before' function starting with the head node and return the result
@@ -124,6 +137,7 @@ class LinkedList():
     self.length -= 1
 # Print the updated list
     print('Linked list updated: \n', self)  
+# Computational Complexity: O(n). Same comments as above.
     
   def removeNodesByValue(self, value):
     try:
@@ -140,6 +154,7 @@ class LinkedList():
 # value have been removed, which means the function is done and we can print the list
     except AttributeError:
       print('Linked list updated: \n', self)
+# Computational Complexity: O(n). Same comments as above.
     
   def reverse(self):
 # Define a temporary function called tail_finder which takes a name and the 
@@ -177,7 +192,8 @@ class LinkedList():
 # so there aren't random objects floating around, I delete self.new_tail.
     self.new_tail = None
     print(self)
-
+# Computational Complexity: O(n) and cannot be reduced since it always has to go
+# to the tail
     
 li = LinkedList(5)
 li.addNode(12)
